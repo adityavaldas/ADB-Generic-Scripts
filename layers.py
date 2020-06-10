@@ -6,8 +6,7 @@ from datetime import datetime
 import subprocess
 import re
 def find_layers():
-	dumpsys=(subprocess.getoutput(["adb","shell","dumpsys","SurfaceFlinger"]))
-	dump_list=dumpsys.split("\n")
+	dump_list=subprocess.getoutput('adb shell dumpsys SurfaceFlinger').split("\n")
 	for line_no in range(len(dump_list)):
 		if (dump_list[line_no].find("HWC layers:"))>-1:
 			first_line=line_no
@@ -21,9 +20,9 @@ def find_layers():
 		pattern = re.search(r'(.*)\#(.*)',line)
 		if(pattern!=None):
 			list.append(pattern.group(1))
-	print(list)
+	return(list)
 while 1:
-	find_layers()
+	print(find_layers())
 	a=input("Press Enter to continue or Q to exit:")
 	if(a.lower()=="q"):
 		exit()
